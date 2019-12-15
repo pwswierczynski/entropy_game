@@ -13,11 +13,13 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
+    - name: Export path
+	  mkdir entropy_game
+	  ls | grep -v entropy_game | xargs mv -t entropy_game
+	  export PYTHONPATH=${PWD}:${PYTHONPATH}
+	  cd entropy_game
     - name: Install dependencies
       run: |
-	  export PYTHONPATH=${PWD}:${PYTHONPATH}
-	  mkdir entropy_game
-	  cd entropy_game
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Lint with flake8
