@@ -1,4 +1,4 @@
-from src.game import Field, Board, EntropyGame
+from .src.game import Field, Board, EntropyGame
 
 
 def test_field():
