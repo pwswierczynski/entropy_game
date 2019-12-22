@@ -82,14 +82,16 @@ class Board:
 
         assert is_right_size(board=board), f"Board needs to be of size 7x7"
 
-        self.fields = [[None for _ in range(7)] for _ in range(7)]
+        self.fields: List[List[Optional[Field]]] = [
+            [None for _ in range(7)] for _ in range(7)
+        ]
         for row in range(7):
             for col in range(7):
                 piece = board[row][col]
                 self.fields[row][col] = Field(piece=piece)
 
     @staticmethod
-    def _is_inside_board(row: int, col: int) -> bool:
+    def is_inside_board(row: int, col: int) -> bool:
         """ Checks if the given coordinates belong to the board"""
 
         if 0 <= row <= 7 and 0 <= col <= 7:
@@ -102,7 +104,7 @@ class Board:
 
     def is_empty(self, row: int, col: int) -> bool:
         """ Checks if the field (row, col) on the board is taken """
-        assert self._is_inside_board(
+        assert self.is_inside_board(
             row, col
         ), "Provide coordinates inside the board 7x7!"
 
@@ -110,7 +112,7 @@ class Board:
 
     def drop_piece(self, piece: int, row: int, col: int) -> None:
 
-        assert self._is_inside_board(
+        assert self.is_inside_board(
             row, col
         ), "Provide coordinates inside the board 7x7!"
 
@@ -118,10 +120,10 @@ class Board:
 
     def move_piece(self, row1: int, col1: int, row2: int, col2: int):
 
-        assert self._is_inside_board(
+        assert self.is_inside_board(
             row1, col1
         ), "Provide coordinates inside the board 7x7!"
-        assert self._is_inside_board(
+        assert self.is_inside_board(
             row2, col2
         ), "Provide coordinates inside the board 7x7!"
 
@@ -246,9 +248,7 @@ class EntropyGame:
 
         return True
 
-    def _is_move_admissible(
-        self, row1: int, col1: int, row2: int, col2: int
-    ) -> bool:
+    def _is_move_admissible(self, row1: int, col1: int, row2: int, col2: int) -> bool:
         """ This function checks if the pieces move only along vertical
             and horizontal axes. It also checks if there are no pieces
             between the origin and the destination of the moved piece.
@@ -315,7 +315,7 @@ class EntropyGame:
                 prompt="In which column would you like to place the piece? "
             )
 
-            if not self.board._is_inside_board(row=row, col=col):
+            if not self.board.is_inside_board(row=row, col=col):
                 print("Given coordinates are outside the board! Try again!")
                 continue
 
@@ -335,14 +335,10 @@ class EntropyGame:
         """
         while True:
 
-            row1 = get_integer_input(
-                prompt="Row of the piece you want to move: "
-            )
-            col1 = get_integer_input(
-                prompt="Column of the piece you want to move: "
-            )
+            row1 = get_integer_input(prompt="Row of the piece you want to move: ")
+            col1 = get_integer_input(prompt="Column of the piece you want to move: ")
 
-            if not self.board._is_inside_board(row=row1, col=col1):
+            if not self.board.is_inside_board(row=row1, col=col1):
                 print("Given coordinates are outside the board! Try again!")
                 continue
 
@@ -353,13 +349,11 @@ class EntropyGame:
             row2 = get_integer_input(prompt="Row of the destination: ")
             col2 = get_integer_input(prompt="Column of the destination: ")
 
-            if not self.board._is_inside_board(row=row1, col=col1):
+            if not self.board.is_inside_board(row=row1, col=col1):
                 print("Given coordinates are outside the board! Try again!")
                 continue
 
-            if not self._is_move_admissible(
-                row1=row1, col1=col1, row2=row2, col2=col2
-            ):
+            if not self._is_move_admissible(row1=row1, col1=col1, row2=row2, col2=col2):
                 print("This move is not admissible! Try again!")
                 continue
 
