@@ -61,7 +61,8 @@ def test_board():
     assert board.fields[0][3].piece == 1
 
     # Check if moving pieces on the board works
-    board.move_piece(row1=0, col1=3, row2=1, col2=3)
+    piece = board.pick_piece(row=0, col=3)
+    board.drop_piece(piece=piece, row=1, col=3)
     assert board.fields[0][3].is_empty()
     assert not board.fields[1][3].is_empty()
     assert board.fields[1][3].piece == 1
