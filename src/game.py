@@ -118,17 +118,11 @@ class Board:
 
         self.fields[row][col].drop_piece(piece=piece)
 
-    def move_piece(self, row1: int, col1: int, row2: int, col2: int):
+    def pick_piece(self, row: int, col: int) -> int:
 
-        assert self.is_inside_board(
-            row1, col1
-        ), "Provide coordinates inside the board 7x7!"
-        assert self.is_inside_board(
-            row2, col2
-        ), "Provide coordinates inside the board 7x7!"
+        piece = self.fields[row][col].take_piece()
 
-        piece = self.fields[row1][col1].take_piece()
-        self.fields[row2][col2].drop_piece(piece=piece)
+        return piece
 
     def print_board(self) -> None:
 
@@ -248,7 +242,9 @@ class EntropyGame:
 
         return True
 
-    def _is_move_admissible(self, row1: int, col1: int, row2: int, col2: int) -> bool:
+    def _is_move_admissible(
+        self, row1: int, col1: int, row2: int, col2: int
+    ) -> bool:
         """ This function checks if the pieces move only along vertical
             and horizontal axes. It also checks if there are no pieces
             between the origin and the destination of the moved piece.
@@ -279,7 +275,7 @@ class EntropyGame:
 
         return True
 
-    def move_piece(self, row1: int, col1: int, row2: int, col2: int) -> bool:
+    def move_piece(self, row1: int, col1: int, row2: int, col2: int) -> None:
         """ This method performs an Order move.
             It assumes that the input is admissible.
 
@@ -290,9 +286,8 @@ class EntropyGame:
             col2 - column of the final possition of the block
         """
 
-        self.board.move_piece(row1=row1, col1=col1, row2=row2, col2=col2)
-
-        return True
+        piece = self.board.pick_piece(row=row1, col=col1)
+        self.board.drop_piece(piece=piece, row=row2, col=col2)
 
     def _move_chaos(self) -> None:
         """ Perform a complete move by chaos consisting of
@@ -335,8 +330,12 @@ class EntropyGame:
         """
         while True:
 
-            row1 = get_integer_input(prompt="Row of the piece you want to move: ")
-            col1 = get_integer_input(prompt="Column of the piece you want to move: ")
+            row1 = get_integer_input(
+                prompt="Row of the piece you want to move: "
+            )
+            col1 = get_integer_input(
+                prompt="Column of the piece you want to move: "
+            )
 
             if not self.board.is_inside_board(row=row1, col=col1):
                 print("Given coordinates are outside the board! Try again!")
@@ -353,7 +352,9 @@ class EntropyGame:
                 print("Given coordinates are outside the board! Try again!")
                 continue
 
-            if not self._is_move_admissible(row1=row1, col1=col1, row2=row2, col2=col2):
+            if not self._is_move_admissible(
+                row1=row1, col1=col1, row2=row2, col2=col2
+            ):
                 print("This move is not admissible! Try again!")
                 continue
 
