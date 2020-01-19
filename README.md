@@ -4,7 +4,7 @@
 This is an implementation of Entropy board game  designed by Eric Solomon in 1977. For the rules of the game see: https://en.wikipedia.org/wiki/Entropy_(1977_board_game)
 
 ## Installation
-The game is written in Python 3.7 and is not compatible with Python 2.x.
+The game is written in Python 3.6.2 and is not compatible with Python 2.x.
 
 Make sure you are in a virtual environment. To create one use:
 ~~~~
