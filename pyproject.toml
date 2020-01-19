@@ -1,0 +1,19 @@
+[project]
+name = "entropy_game"
+version = "0.1.0"
+description = "Implementation of Entropy board game"
+authors = [
+    "Piotr Swierczynski"
+]
+license = "MIT"
+readme = "README.md"
+python = "^3.6"
+homepage = "https://github.com/pwswierczynski/entropy_game"
+repository = "https://github.com/pwswierczynski/entropy_game"
+
+[flake8]
+max-line-length = 79
+
+[tool.black]
+line-length = 79
+target_version = ['py36']
