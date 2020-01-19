@@ -242,7 +242,7 @@ class EntropyGame:
 
         return True
 
-    def _is_move_admissible(
+    def _is_move_allowed(
         self, row1: int, col1: int, row2: int, col2: int
     ) -> bool:
         """ This function checks if the pieces move only along vertical
@@ -352,10 +352,10 @@ class EntropyGame:
                 print("Given coordinates are outside the board! Try again!")
                 continue
 
-            if not self._is_move_admissible(
+            if not self._is_move_allowed(
                 row1=row1, col1=col1, row2=row2, col2=col2
             ):
-                print("This move is not admissible! Try again!")
+                print("This move is not allowed! Try again!")
                 continue
 
             break
