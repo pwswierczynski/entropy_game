@@ -22,6 +22,7 @@ To make sure your PYTHONPATH is set correctly, you can call
 export PYTHONPATH=.
 ~~~~
 
+## Playing Entopy Board game
 To play a game, call
 ~~~~
 python examples/play_entropy.py
